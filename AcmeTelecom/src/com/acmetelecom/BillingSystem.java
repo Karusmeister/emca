@@ -11,7 +11,7 @@ import java.util.*;
 
 public class BillingSystem {
 
-    private List<CallEvent> callLog = new ArrayList<CallEvent>();
+    public List<CallEvent> callLog = new ArrayList<CallEvent>();
 
     public void callInitiated(String caller, String callee) {
         callLog.add(new CallStart(caller, callee));
