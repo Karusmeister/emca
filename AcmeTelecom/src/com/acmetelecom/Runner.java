@@ -5,7 +5,7 @@ public static void main(String[] args) throws Exception {
 System.out.println("Running...");
 BillingSystem billingSystem = new BillingSystem();
 billingSystem.callInitiated("447722113434", "447766511332");
-sleepSeconds(20);
+sleepSeconds(35);
 billingSystem.callCompleted("447722113434", "447766511332");
 billingSystem.callInitiated("447722113434", "447711111111");
 sleepSeconds(30);
