@@ -28,14 +28,9 @@ public class BillingSystem {
         }
         callLog.clear();
     }
-
+    
     private void createBillFor(Customer customer) {
-        List<CallEvent> customerEvents = new ArrayList<CallEvent>();
-        for (CallEvent callEvent : callLog) {
-            if (callEvent.getCaller().equals(customer.getPhoneNumber())) {
-                customerEvents.add(callEvent);
-            }
-        }
+        List<CallEvent> customerEvents = createCustomerEvents(customer);
 
         List<Call> calls = new ArrayList<Call>();
 
@@ -74,6 +69,16 @@ public class BillingSystem {
 
         new BillGenerator().send(customer, items, MoneyFormatter.penceToPounds(totalBill));
     }
+
+	private List<CallEvent> createCustomerEvents(Customer customer) {
+		List<CallEvent> customerEvents = new ArrayList<CallEvent>();
+        for (CallEvent callEvent : callLog) {
+            if (callEvent.getCaller().equals(customer.getPhoneNumber())) {
+                customerEvents.add(callEvent);
+            }
+        }
+		return customerEvents;
+	}
 
     static class LineItem {
         private Call call;
