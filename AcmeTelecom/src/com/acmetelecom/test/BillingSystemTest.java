@@ -84,6 +84,7 @@ public class BillingSystemTest {
 		
 		log = bs.callLog;
 		assertEquals(0, log.size());
+		
 	}
 
 }

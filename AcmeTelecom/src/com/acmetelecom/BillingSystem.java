@@ -28,7 +28,7 @@ public class BillingSystem {
         }
         callLog.clear();
     }
-
+    
     private void createBillFor(Customer customer) {
 
         List<Call> calls = generateCustomerCalls(generateCustomerEvents(customer));
@@ -39,7 +39,7 @@ public class BillingSystem {
         }
         
         BigDecimal totalBill = calculateTotalBill(items);
-
+        
         new BillGenerator().send(customer, items, MoneyFormatter.penceToPounds(totalBill));
     }
 
