@@ -11,14 +11,23 @@ import java.util.*;
 
 public class BillingSystem {
 
-    public List<CallEvent> callLog = new ArrayList<CallEvent>();
+	//hashmap to store the startCall event affiliated with each caller, facilitating easy retrieval
+    public HashMap<String, CallEvent> callLog = new HashMap<String, CallEvent>();
+    //list of all calls at the system so far
+    public List<Call> calls = new ArrayList<Call>();
 
     public void callInitiated(String caller, String callee) {
-        callLog.add(new CallStart(caller, callee));
+        callLog.put(caller, new CallStart(caller, callee));
     }
 
     public void callCompleted(String caller, String callee) {
-        callLog.add(new CallEnd(caller, callee));
+    	//check if there's a callStart affiliated with that caller
+    	//needs lots of exceptions handling here
+    	if(callLog.containsKey(caller)&&(callLog.get(caller) instanceof CallStart))
+    	{
+    		calls.add(new Call(callLog.get(caller), new CallEnd(caller, callee)));//generate the call 
+    		callLog.remove(caller); //remove callStart from log
+    	}
     }
 
     public void createCustomerBills() {
@@ -27,15 +36,16 @@ public class BillingSystem {
             createBillFor(customer);
         }
         callLog.clear();
+        calls.clear();
     }
     
     private void createBillFor(Customer customer) {
 
-        List<Call> calls = generateCustomerCalls(generateCustomerEvents(customer));
         List<LineItem> items = new ArrayList<LineItem>();
 
         for (Call call : calls) {
-            items.add(new LineItem(call, computeCallCost(customer, call)));
+        	if(call.caller().equals(customer.getPhoneNumber()))//fetch customer's calls
+        		items.add(new LineItem(call, computeCallCost(customer, call)));
         }
         
         BigDecimal totalBill = calculateTotalBill(items);
@@ -52,46 +62,25 @@ public class BillingSystem {
 	}
 
 	private BigDecimal computeCallCost(Customer customer, Call call) {
-		BigDecimal cost;
-		Tariff tariff = CentralTariffDatabase.getInstance().tarriffFor(customer);
-		DaytimePeakPeriod peakPeriod = new DaytimePeakPeriod();
-		if (peakPeriod.offPeak(call.startTime()) && peakPeriod.offPeak(call.endTime()) && call.durationSeconds() < 12 * 60 * 60) {
-		    cost = new BigDecimal(call.durationSeconds()).multiply(tariff.offPeakRate());
-		} else {
-		    cost = new BigDecimal(call.durationSeconds()).multiply(tariff.peakRate());
-		}
 		
+		BigDecimal cost;
+		
+		Tariff tariff = CentralTariffDatabase.getInstance().tarriffFor(customer);
+		
+		PeakCalculator peakCalculator = new PeakCalculator();
+	    int timeOnPeak = peakCalculator.onPeakTime(call.startTime(), call.durationSeconds());
+	    
+	    cost = new BigDecimal(0);
+	    cost = cost.add(new BigDecimal(timeOnPeak).multiply(tariff.peakRate()));//add on peak duration cost
+	    //add offpeak duration cost
+	    cost = cost.add(new BigDecimal(call.durationSeconds()-timeOnPeak).multiply(tariff.offPeakRate()));
 		cost = cost.setScale(0, RoundingMode.HALF_UP);
+		
 		return cost;
 	}
 
-	private List<Call> generateCustomerCalls(List<CallEvent> customerEvents) {
-		List<Call> calls = new ArrayList<Call>();
-
-        CallEvent start = null;
-        for (CallEvent event : customerEvents) {
-            if (event instanceof CallStart) {
-                start = event;
-            }
-            if (event instanceof CallEnd && start != null) {
-                calls.add(new Call(start, event));
-                start = null;
-            }
-        }
-		return calls;
-	}
-
-	private List<CallEvent> generateCustomerEvents(Customer customer) {
-		List<CallEvent> customerEvents = new ArrayList<CallEvent>();
-        for (CallEvent callEvent : callLog) {
-            if (callEvent.getCaller().equals(customer.getPhoneNumber())) {
-                customerEvents.add(callEvent);
-            }
-        }
-		return customerEvents;
-	}
-
     static class LineItem {
+    	//added some getters and setters
         private Call call;
         public Call getCall() {
 			return call;
