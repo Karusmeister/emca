@@ -2,6 +2,7 @@ package com.acmetelecom.test;
 
 import static org.junit.Assert.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.junit.After;
@@ -9,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.acmetelecom.BillingSystem;
+import com.acmetelecom.Call;
 import com.acmetelecom.CallEnd;
 import com.acmetelecom.CallEvent;
 import com.acmetelecom.CallStart;
@@ -26,31 +28,28 @@ public class BillingSystemTest {
 	public void tearDown() throws Exception {
 	}
 
-	/*@Test
+	@Test
 	public void testcheckCallLogEmpty() {
-		List<CallEvent> log = bs.callLog;
+		
+		HashMap<String, CallEvent> log = bs.callLog;
 		assertEquals(0, log.size());
-	}*/
+		
+		List<Call> calls = bs.calls;
+		assertEquals(0, calls.size());
+	}
 	
-	/*@Test
+	@Test
 	public void testAddStartToLog() {
 		String caller = "Peter";
 		String callee = "Adam";
 		
 		bs.callInitiated(caller, callee);
 		
-		List<CallEvent> log = bs.callLog;
+		HashMap<String, CallEvent> log = bs.callLog;
 		assertEquals(1, log.size());
-		
-		Object call = log.get(0);
-		assertEquals(CallStart.class, call.getClass());
-		
-		CallStart start = (CallStart) call;
-		assertEquals(caller, start.getCaller());
-		assertEquals(callee, start.getCallee());
-	}*/
+	}
 	
-	/*@Test
+	@Test
 	public void testAddEndToLog() {
 		String caller = "Peter";
 		String callee = "Adam";
@@ -58,18 +57,14 @@ public class BillingSystemTest {
 		bs.callInitiated(caller, callee);
 		bs.callCompleted(caller, callee);
 		
-		List<CallEvent> log = bs.callLog;
-		assertEquals(2, log.size());
+		HashMap<String, CallEvent> log = bs.callLog;
+		assertEquals(0, log.size());
 		
-		Object call = log.get(1);
-		assertEquals(CallEnd.class, call.getClass());
-		
-		CallEnd start = (CallEnd) call;
-		assertEquals(caller, start.getCaller());
-		assertEquals(callee, start.getCallee());
-	}*/
+		List<Call> calls = bs.calls;
+		assertEquals(1, calls.size());
+	}
 	
-	/*@Test
+	@Test
 	public void testCreateBillsClearsLog() {
 		String caller = "Peter";
 		String callee = "Adam";
@@ -77,14 +72,13 @@ public class BillingSystemTest {
 		bs.callInitiated(caller, callee);
 		bs.callCompleted(caller, callee);
 		
-		List<CallEvent> log = bs.callLog;
-		assertEquals(2, log.size());
-		
 		bs.createCustomerBills();
 		
-		log = bs.callLog;
+		HashMap<String, CallEvent> log = bs.callLog;
 		assertEquals(0, log.size());
 		
-	}*/
+		List<Call> calls = bs.calls;
+		assertEquals(0, calls.size());
+	}
 
 }
