@@ -5,6 +5,14 @@ import com.acmetelecom.customer.CentralTariffDatabase;
 import com.acmetelecom.customer.Customer;
 import com.acmetelecom.customer.Tariff;
 
+import dataLayer.CustomerDatabase;
+import dataLayer.ICustomerDatabase;
+import dataLayer.ILocalCustomer;
+import dataLayer.ILocalTariff;
+import dataLayer.ITariffDatabase;
+import dataLayer.LocalCustomer;
+import dataLayer.TariffDatabase;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
@@ -22,14 +30,24 @@ public class BillingSystem {
     }
 
     public void createCustomerBills() {
-        List<Customer> customers = CentralCustomerDatabase.getInstance().getCustomers();
-        for (Customer customer : customers) {
-            createBillFor(customer);
-        }
+    	//Tudor modified this
+    	//Refactor to use only the dataLayer in order to connect to the extrnal.jar library
+
+//        List<Customer> customers = CentralCustomerDatabase.getInstance().getCustomers();
+//        for (Customer customer : customers) {
+//            createBillFor(customer);
+//        }
+    	ICustomerDatabase customerDatabase = new CustomerDatabase();
+    	List<ILocalCustomer> customers = customerDatabase.getCustomers();
+
+    	for(ILocalCustomer customer : customers){
+    		createBillFor(customer);
+    	}
+
         callLog.clear();
     }
-    
-    private void createBillFor(Customer customer) {
+
+    public void createBillFor(ILocalCustomer customer) {
 
         List<Call> calls = generateCustomerCalls(generateCustomerEvents(customer));
         List<LineItem> items = new ArrayList<LineItem>();
@@ -37,9 +55,9 @@ public class BillingSystem {
         for (Call call : calls) {
             items.add(new LineItem(call, computeCallCost(customer, call)));
         }
-        
+
         BigDecimal totalBill = calculateTotalBill(items);
-        
+
         new BillGenerator().send(customer, items, MoneyFormatter.penceToPounds(totalBill));
     }
 
@@ -51,16 +69,21 @@ public class BillingSystem {
 		return totalBill;
 	}
 
-	private BigDecimal computeCallCost(Customer customer, Call call) {
+	private BigDecimal computeCallCost(ILocalCustomer customer, Call call) {
 		BigDecimal cost;
-		Tariff tariff = CentralTariffDatabase.getInstance().tarriffFor(customer);
+
+		//Tudor modified here
+		//Tariff tariff = CentralTariffDatabase.getInstance().tarriffFor(customer);
+
+		ITariffDatabase tariffDatabase = new TariffDatabase();
+		ILocalTariff tariff = tariffDatabase.tariffFor(customer);
 		DaytimePeakPeriod peakPeriod = new DaytimePeakPeriod();
 		if (peakPeriod.offPeak(call.startTime()) && peakPeriod.offPeak(call.endTime()) && call.durationSeconds() < 12 * 60 * 60) {
 		    cost = new BigDecimal(call.durationSeconds()).multiply(tariff.offPeakRate());
 		} else {
 		    cost = new BigDecimal(call.durationSeconds()).multiply(tariff.peakRate());
 		}
-		
+
 		cost = cost.setScale(0, RoundingMode.HALF_UP);
 		return cost;
 	}
@@ -81,7 +104,7 @@ public class BillingSystem {
 		return calls;
 	}
 
-	private List<CallEvent> generateCustomerEvents(Customer customer) {
+	private List<CallEvent> generateCustomerEvents(ILocalCustomer customer) {
 		List<CallEvent> customerEvents = new ArrayList<CallEvent>();
         for (CallEvent callEvent : callLog) {
             if (callEvent.getCaller().equals(customer.getPhoneNumber())) {
@@ -91,7 +114,7 @@ public class BillingSystem {
 		return customerEvents;
 	}
 
-    static class LineItem {
+    public static class LineItem {
         private Call call;
         public Call getCall() {
 			return call;

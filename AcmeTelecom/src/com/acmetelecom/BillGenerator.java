@@ -1,13 +1,13 @@
 package com.acmetelecom;
 
-import com.acmetelecom.customer.Customer;
+import dataLayer.ILocalCustomer;
 
 import java.util.List;
 
 
 public class BillGenerator {
 
-    public void send(Customer customer, List<BillingSystem.LineItem> calls, String totalBill) {
+    public void send(ILocalCustomer customer, List<BillingSystem.LineItem> calls, String totalBill) {
 
         Printer printer = HtmlPrinter.getInstance(System.out);
         printer.printHeading(customer.getFullName(), customer.getPhoneNumber(), customer.getPricePlan());
