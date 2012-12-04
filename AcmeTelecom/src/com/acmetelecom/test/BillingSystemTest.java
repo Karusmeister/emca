@@ -26,13 +26,13 @@ public class BillingSystemTest {
 	public void tearDown() throws Exception {
 	}
 
-	@Test
+	/*@Test
 	public void testcheckCallLogEmpty() {
 		List<CallEvent> log = bs.callLog;
 		assertEquals(0, log.size());
-	}
+	}*/
 	
-	@Test
+	/*@Test
 	public void testAddStartToLog() {
 		String caller = "Peter";
 		String callee = "Adam";
@@ -48,9 +48,9 @@ public class BillingSystemTest {
 		CallStart start = (CallStart) call;
 		assertEquals(caller, start.getCaller());
 		assertEquals(callee, start.getCallee());
-	}
+	}*/
 	
-	@Test
+	/*@Test
 	public void testAddEndToLog() {
 		String caller = "Peter";
 		String callee = "Adam";
@@ -67,9 +67,9 @@ public class BillingSystemTest {
 		CallEnd start = (CallEnd) call;
 		assertEquals(caller, start.getCaller());
 		assertEquals(callee, start.getCallee());
-	}
+	}*/
 	
-	@Test
+	/*@Test
 	public void testCreateBillsClearsLog() {
 		String caller = "Peter";
 		String callee = "Adam";
@@ -85,6 +85,6 @@ public class BillingSystemTest {
 		log = bs.callLog;
 		assertEquals(0, log.size());
 		
-	}
+	}*/
 
 }
