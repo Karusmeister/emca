@@ -1,5 +1,6 @@
 package dataLayer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.acmetelecom.customer.CentralCustomerDatabase;
@@ -17,6 +18,7 @@ public class CustomerDatabase implements ICustomerDatabase {
 	public List<ILocalCustomer> getCustomers() {
 		//Exception handling needed
 		customers = CentralCustomerDatabase.getInstance().getCustomers();
+		localCustomers = new ArrayList<ILocalCustomer>();
 		for (Customer customer : customers) {
 			localCustomers.add(new LocalCustomer(customer));
         }
