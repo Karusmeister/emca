@@ -36,7 +36,7 @@ public class BillGeneratorTest {
 
 	Mockery context = new JUnit4Mockery();
 
-	BillGenerator billGenerator = new BillGenerator();
+	//BillGenerator billGenerator = new BillGenerator();
 	Printer printer = context.mock(Printer.class);
 
 	final LocalCustomer customer1 = new LocalCustomer(new Customer("John", "07445544412", "Plan"));
@@ -56,7 +56,7 @@ public class BillGeneratorTest {
 			//oneOf(printer).printTotal(totalBill);
         }});
 
-        billGenerator.send(customer1, items, totalBill);
+        //billGenerator.send(customer1, items, totalBill);
 	}
 
 }
