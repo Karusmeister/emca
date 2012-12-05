@@ -20,7 +20,7 @@ public class HtmlPrinterTest {
 	public void setUp() throws Exception {
 		baos = new ByteArrayOutputStream();
 		PrintStream ps = new PrintStream(baos);
-		printer = (HtmlPrinter) HtmlPrinter.getInstance(ps);
+		printer = new HtmlPrinter(ps);
 	}
 
 	@After
