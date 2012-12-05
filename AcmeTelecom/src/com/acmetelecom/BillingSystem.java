@@ -1,16 +1,10 @@
 package com.acmetelecom;
 
-import com.acmetelecom.customer.CentralCustomerDatabase;
-import com.acmetelecom.customer.CentralTariffDatabase;
-import com.acmetelecom.customer.Customer;
-import com.acmetelecom.customer.Tariff;
-
 import dataLayer.CustomerDatabase;
 import dataLayer.ICustomerDatabase;
 import dataLayer.ILocalCustomer;
 import dataLayer.ILocalTariff;
 import dataLayer.ITariffDatabase;
-import dataLayer.LocalCustomer;
 import dataLayer.TariffDatabase;
 
 import java.math.BigDecimal;
@@ -23,6 +17,9 @@ public class BillingSystem {
     public HashMap<String, CallEvent> callLog = new HashMap<String, CallEvent>();
     //list of all calls at the system so far
     public List<Call> calls = new ArrayList<Call>();
+
+    ICustomerDatabase customerDatabase = new CustomerDatabase();
+    ITariffDatabase tariffDatabase = new TariffDatabase();
 
     public void callInitiated(String caller, String callee) {
         callLog.put(caller, new CallStart(caller, callee));
@@ -46,7 +43,6 @@ public class BillingSystem {
 //        for (Customer customer : customers) {
 //            createBillFor(customer);
 //        }
-    	ICustomerDatabase customerDatabase = new CustomerDatabase();
     	List<ILocalCustomer> customers = customerDatabase.getCustomers();
 
     	for(ILocalCustomer customer : customers){
@@ -80,7 +76,7 @@ public class BillingSystem {
 	private BigDecimal computeCallCost(ILocalCustomer customer, Call call) {
 
 		BigDecimal cost;
-				ITariffDatabase tariffDatabase = new TariffDatabase();
+
 		ILocalTariff tariff = tariffDatabase.tariffFor(customer);
 		PeakCalculator peakCalculator = new PeakCalculator();
 	    int timeOnPeak = peakCalculator.onPeakTime(call.startTime(), call.durationSeconds());

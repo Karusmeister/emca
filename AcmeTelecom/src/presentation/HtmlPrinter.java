@@ -1,13 +1,19 @@
-package com.acmetelecom;
+package presentation;
 
+import java.io.File;
 import java.io.PrintStream;
 
 public class HtmlPrinter implements Printer {
 
     private static Printer instance = new HtmlPrinter();
     private static PrintStream stream;
-    
+
     private HtmlPrinter() {
+//    	try{
+//    		System.setOut(new PrintStream(new File("out.html")));
+//    	}
+//    	catch(Exception e){
+//    	}
     }
 
     public static Printer getInstance(PrintStream aStream) {
