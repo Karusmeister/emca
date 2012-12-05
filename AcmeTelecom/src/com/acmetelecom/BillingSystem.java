@@ -11,6 +11,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
 
+import presentation.HtmlPrinter;
+
 // Class for Billing System
 public class BillingSystem {
 
@@ -94,7 +96,9 @@ public class BillingSystem {
 	private BigDecimal computeCallCost(ILocalCustomer customer, Call call) {
 
 		BigDecimal cost;
+
 		ITariffDatabase tariffDatabase = new TariffDatabase();
+
 		ILocalTariff tariff = tariffDatabase.tariffFor(customer);
 		PeakCalculator peakCalculator = new PeakCalculator();
 		int timeOnPeak = peakCalculator.onPeakTime(call.startTime(),

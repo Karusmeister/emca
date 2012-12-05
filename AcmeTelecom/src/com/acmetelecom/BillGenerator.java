@@ -4,6 +4,9 @@ import dataLayer.ILocalCustomer;
 
 import java.util.List;
 
+import presentation.HtmlPrinter;
+import presentation.Printer;
+
 
 public class BillGenerator {
 	

@@ -1,4 +1,4 @@
-package com.acmetelecom;
+package presentation;
 
 public interface Printer {
 
