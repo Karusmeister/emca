@@ -15,27 +15,18 @@ public class CustomerDatabase implements ICustomerDatabase {
 	}
 
 	@Override
-	public List<ILocalCustomer> getCustomers()  {
-		
-		
-			//Exception handling needed
+	public List<ILocalCustomer> getCustomers() {
+
 		try {
 			customers = CentralCustomerDatabase.getInstance().getCustomers();
-		} catch (Exception e){
-			e.getMessage();
-			
-			return new ArrayList<ILocalCustomer>();
+		} catch (Exception e) {
 		}
-		
-		
-			localCustomers = new ArrayList<ILocalCustomer>();
-			for (Customer customer : customers) {
-				localCustomers.add(new LocalCustomer(customer));
-	        }
-			return localCustomers;
-		
 
+		localCustomers = new ArrayList<ILocalCustomer>();
+		for (Customer customer : customers) {
+			localCustomers.add(new LocalCustomer(customer));
 		}
-		
+		return localCustomers;
+	}
 
 }
