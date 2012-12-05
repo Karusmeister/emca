@@ -1,26 +1,22 @@
 package presentation;
 
-import java.io.File;
 import java.io.PrintStream;
 
 public class HtmlPrinter implements Printer {
 
-    private static Printer instance = new HtmlPrinter();
+	//Remove singleton
+    //private static Printer instance = new HtmlPrinter();
     private static PrintStream stream;
 
-    private HtmlPrinter() {
-    	//Print everything to a file
-//    	try{
-//    		System.setOut(new PrintStream(new File("out.html")));
-//    	}
-//    	catch(Exception e){
-//    	}
+    public HtmlPrinter(PrintStream aStream) {
+    	stream = aStream;
     }
 
-    public static Printer getInstance(PrintStream aStream) {
-    	stream = aStream;
-        return instance;
-    }
+    //Remove singleton
+//    public static Printer getInstance(PrintStream aStream) {
+//    	stream = aStream;
+//        return instance;
+//    }
 
     public void printHeading(String name, String phoneNumber, String pricePlan) {
         beginHtml();
