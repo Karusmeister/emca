@@ -22,9 +22,17 @@ public class BillingSystem {
 	//hashmap to store the startCall event affiliated with each caller, facilitating easy retrieval
     public HashMap<String, CallEvent> callLog = new HashMap<String, CallEvent>();
     //list of all calls at the system so far
-    public List<Call> calls = new ArrayList<Call>();
+    private List<Call> calls = new ArrayList<Call>();
 
-    public void callInitiated(String caller, String callee) {
+    public List<Call> getCalls() {
+		return calls;
+	}
+
+	public void setCalls(List<Call> calls) {
+		this.calls = calls;
+	}
+
+	public void callInitiated(String caller, String callee) {
         callLog.put(caller, new CallStart(caller, callee));
     }
 
