@@ -11,7 +11,6 @@ import com.acmetelecom.*;
 
 public class PeakCalculatorTest {
 
-	
 	@Test
 	public void withinPeakTime() {
 		

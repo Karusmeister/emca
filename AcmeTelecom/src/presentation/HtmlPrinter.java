@@ -9,6 +9,7 @@ public class HtmlPrinter implements Printer {
     private static PrintStream stream;
 
     private HtmlPrinter() {
+    	//Print everything to a file
 //    	try{
 //    		System.setOut(new PrintStream(new File("out.html")));
 //    	}
