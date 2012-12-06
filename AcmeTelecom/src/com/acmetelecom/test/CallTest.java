@@ -12,11 +12,13 @@ import org.junit.Test;
 import com.acmetelecom.Call;
 import com.acmetelecom.CallEnd;
 import com.acmetelecom.CallStart;
+import com.acmetelecom.Callee;
+import com.acmetelecom.Caller;
 
 public class CallTest {
 
-	String caller = "Peter";
-	String callee = "Adam";
+	Caller caller = new Caller("Peter");
+	Callee callee = new Callee("Adam");
 	
 	Call call;
 	CallStart start;

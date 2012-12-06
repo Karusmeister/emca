@@ -12,11 +12,13 @@ import com.acmetelecom.BillingSystem.LineItem;
 import com.acmetelecom.Call;
 import com.acmetelecom.CallEnd;
 import com.acmetelecom.CallStart;
+import com.acmetelecom.Callee;
+import com.acmetelecom.Caller;
 
 public class LineItemTest {
 	
-	String caller = "Peter";
-	String callee = "Adam";
+	Caller caller = new Caller("Peter");
+	Callee callee = new Callee("Adam");
 	BigDecimal callCost = new BigDecimal(12.50);
 	Call call = new Call(new CallStart(caller, callee), new CallEnd(caller, callee));
 	LineItem li;
@@ -39,8 +41,8 @@ public class LineItemTest {
 	@Test
 	public void testSetCall() {
 		
-		String caller = "A";
-		String callee = "B";
+		Caller caller = new Caller("A");
+		Callee callee = new Callee("B");
 		
 		Call call = new Call(new CallStart(caller, callee), new CallEnd(caller, callee));
 		li.setCall(call);

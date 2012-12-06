@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import com.acmetelecom.CallEvent;
+import com.acmetelecom.Callee;
+import com.acmetelecom.Caller;
 
 public class CallEventTest {
 
@@ -12,8 +14,9 @@ public class CallEventTest {
 	@Test
 	public void testTimeZero() {
 
-		String caller = "Peter";
-		String callee = "Adam";
+		Caller caller = new Caller("Peter");
+		Callee callee = new Callee("Adam");
+		
 		long time = 0;
 		
 		CallEvent ce = new CallEvent(caller, callee, time) {
@@ -27,8 +30,9 @@ public class CallEventTest {
 	@Test
 	public void testTimeMaxLong() {
 
-		String caller = "Peter";
-		String callee = "Adam";
+		Caller caller = new Caller("Peter");
+		Callee callee = new Callee("Adam");
+		
 		long time = Long.MAX_VALUE;
 		
 		CallEvent ce = new CallEvent(caller, callee, time) {
@@ -40,8 +44,9 @@ public class CallEventTest {
 	@Test
 	public void testMinLong() {
 
-		String caller = "Peter";
-		String callee = "Adam";
+		Caller caller = new Caller("Peter");
+		Callee callee = new Callee("Adam");
+		
 		long time = Long.MIN_VALUE;
 		
 		CallEvent ce = new CallEvent(caller, callee, time) {
