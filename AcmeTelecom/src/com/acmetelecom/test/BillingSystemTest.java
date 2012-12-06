@@ -1,8 +1,20 @@
 package com.acmetelecom.test;
 
+import static org.junit.Assert.*;
+
+import java.util.HashMap;
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
+
 import com.acmetelecom.BillingSystem;
+import com.acmetelecom.model.Call;
+import com.acmetelecom.model.CallEvent;
+import com.acmetelecom.model.CallStart;
+import com.acmetelecom.model.Callee;
+import com.acmetelecom.model.Caller;
 
 public class BillingSystemTest {
 
@@ -17,65 +29,70 @@ public class BillingSystemTest {
 	public void tearDown() throws Exception {
 	}
 
-	/*@Test
+	@Test
 	public void testcheckCallLogEmpty() {
-		List<CallEvent> log = bs.callLog;
+		List<Call> log = bs.calls;
 		assertEquals(0, log.size());
-	}*/
+		
+		HashMap<String, CallEvent> callLog = bs.callLog;
+		assertEquals(0, callLog.size());
+	}
 
-	/*@Test
+	@Test
 	public void testAddStartToLog() {
-		String caller = "Peter";
-		String callee = "Adam";
+		Caller caller = new Caller("225899");
+		Callee callee = new Callee("112233");
 
 		bs.callInitiated(caller, callee);
 
-		List<CallEvent> log = bs.callLog;
-		assertEquals(1, log.size());
+		HashMap<String, CallEvent> callLog = bs.callLog;
+		assertEquals(1, callLog.size());
 
-		Object call = log.get(0);
+		Object call = callLog.get(caller.getPhoneNumber());
 		assertEquals(CallStart.class, call.getClass());
 
-		CallStart start = (CallStart) call;
-		assertEquals(caller, start.getCaller());
-		assertEquals(callee, start.getCallee());
-	}*/
+		CallStart call1 = (CallStart)call;
+		assertEquals(caller, call1.getCaller());
+		assertEquals(callee, call1.getCallee());
+	}
 
-	/*@Test
+	@Test
 	public void testAddEndToLog() {
-		String caller = "Peter";
-		String callee = "Adam";
+		Caller caller = new Caller("00525");
+		Callee callee = new Callee("99525");
 
 		bs.callInitiated(caller, callee);
 		bs.callCompleted(caller, callee);
 
-		List<CallEvent> log = bs.callLog;
-		assertEquals(2, log.size());
+		HashMap<String, CallEvent> callLog = bs.callLog;
+		assertEquals(0, callLog.size());
 
-		Object call = log.get(1);
-		assertEquals(CallEnd.class, call.getClass());
+		List<Call> log = bs.calls;
+		
+		Object call = log.get(0);
+		assertEquals(Call.class, call.getClass());
 
-		CallEnd start = (CallEnd) call;
-		assertEquals(caller, start.getCaller());
-		assertEquals(callee, start.getCallee());
-	}*/
+		Call aCall = (Call) call;
+		assertEquals(caller, aCall.caller());
+		assertEquals(callee, aCall.callee());
+	}
 
-	/*@Test
+	@Test
 	public void testCreateBillsClearsLog() {
-		String caller = "Peter";
-		String callee = "Adam";
+		Caller caller = new Caller("Peter");
+		Callee callee = new Callee("Adam");
 
 		bs.callInitiated(caller, callee);
 		bs.callCompleted(caller, callee);
 
-		List<CallEvent> log = bs.callLog;
-		assertEquals(2, log.size());
+		List<Call> log = bs.calls;
+		assertEquals(1, log.size());
 
 		bs.createCustomerBills();
 
-		log = bs.callLog;
+		log = bs.calls;
 		assertEquals(0, log.size());
 
-	}*/
+	}
 
 }

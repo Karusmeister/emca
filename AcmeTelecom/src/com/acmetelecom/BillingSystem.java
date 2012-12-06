@@ -61,7 +61,7 @@ public class BillingSystem {
 			calls.add(new Call(callLog.get(caller.getPhoneNumber()), new CallEnd(caller, callee)));// generate
 																					// the
 																					// call
-			callLog.remove(caller); // remove callStart from log
+			callLog.remove(caller.getPhoneNumber()); // remove callStart from log
 		}
 	}
 
