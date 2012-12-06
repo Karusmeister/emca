@@ -9,7 +9,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import presentation.HtmlPrinter;
+import com.acmetelecom.presentation.HtmlPrinter;
+
 
 public class HtmlPrinterTest {
 

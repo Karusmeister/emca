@@ -1,28 +1,31 @@
 package com.acmetelecom;
 
+import dataLayer.CustomerDatabase;
+import dataLayer.ICustomerDatabase;
+import dataLayer.ILocalCustomer;
+import dataLayer.ILocalTariff;
+import dataLayer.ITariffDatabase;
+import dataLayer.LocalCustomer;
+import dataLayer.TariffDatabase;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
 
+<<<<<<< HEAD
+import model.Call;
+import model.CallEnd;
+import model.CallEvent;
+import model.CallStart;
+import model.Callee;
+import model.Caller;
+
 import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
-import com.acmetelecom.dataLayer.CustomerDatabase;
-import com.acmetelecom.dataLayer.ICustomerDatabase;
-import com.acmetelecom.dataLayer.ILocalCustomer;
-import com.acmetelecom.dataLayer.ILocalTariff;
-import com.acmetelecom.dataLayer.ITariffDatabase;
-import com.acmetelecom.dataLayer.LocalCustomer;
-import com.acmetelecom.dataLayer.TariffDatabase;
-import com.acmetelecom.model.Call;
-import com.acmetelecom.model.CallEnd;
-import com.acmetelecom.model.CallEvent;
-import com.acmetelecom.model.CallStart;
-import com.acmetelecom.model.Callee;
-import com.acmetelecom.model.Caller;
-import com.acmetelecom.presentation.HtmlPrinter;
-import com.acmetelecom.presentation.PrinterFactory;
-
+import presentation.HtmlPrinter;
+=======
+>>>>>>> a1b7b4c8841b8b46046fc544c12ca645c95a8ba5
+import presentation.PrinterFactory;
 
 // Class for Billing System
 public class BillingSystem {
@@ -34,6 +37,7 @@ public class BillingSystem {
 	public List<Call> calls = new ArrayList<Call>();
 
 	// Remove singleton
+<<<<<<< HEAD
 	// public BillGenerator billGenerator = new BillGenerator(
 	// new HtmlPrinter(System.out));
 	private ICustomerDatabase customerDatabase = null;
@@ -48,6 +52,10 @@ public class BillingSystem {
 		this.customerDatabase = customerDatabase;
 		this.tariffDatabase = tariffDatabase;
 	}
+=======
+	public BillGenerator billGenerator = new BillGenerator(
+			PrinterFactory.getPrinter(PrinterFactory.SYSTEM_OUT_PRINTER));
+>>>>>>> a1b7b4c8841b8b46046fc544c12ca645c95a8ba5
 
 	public void callInitiated(Caller caller, Callee callee) {
 		callLog.put(caller.getPhoneNumber(), new CallStart(caller, callee));
@@ -56,9 +64,9 @@ public class BillingSystem {
 	public void callCompleted(Caller caller, Callee callee) {
 		// check if there's a callStart affiliated with that caller
 		// needs lots of exceptions handling here
-		if (callLog.containsKey(caller.getPhoneNumber())
-				&& (callLog.get(caller.getPhoneNumber()) instanceof CallStart)) {
-			calls.add(new Call(callLog.get(caller.getPhoneNumber()), new CallEnd(caller, callee)));// generate
+		if (callLog.containsKey(caller)
+				&& (callLog.get(caller) instanceof CallStart)) {
+			calls.add(new Call(callLog.get(caller), new CallEnd(caller, callee)));// generate
 																					// the
 																					// call
 			callLog.remove(caller); // remove callStart from log
@@ -95,7 +103,7 @@ public class BillingSystem {
 		List<LineItem> items = new ArrayList<LineItem>();
 
 		for (Call call : calls) {
-			if (call.caller().getPhoneNumber().equals(customer.getPhoneNumber()))// fetch
+			if (call.caller().equals(customer.getPhoneNumber()))// fetch
 																// customer's
 																// calls
 				items.add(new LineItem(call, computeCallCost(customer, call)));
@@ -112,10 +120,12 @@ public class BillingSystem {
 		// object
 		// each time we have to print a bill as we avoid bottlenecks (we can
 		// change this back)
+<<<<<<< HEAD
 		BillGenerator billGenerator = new BillGenerator();
+=======
+>>>>>>> a1b7b4c8841b8b46046fc544c12ca645c95a8ba5
 		billGenerator.send(customer, items,
-				MoneyFormatter.penceToPounds(totalBill),
-				PrinterFactory.getPrinter(PrinterFactory.SYSTEM_OUT_PRINTER));
+				MoneyFormatter.penceToPounds(totalBill));
 	}
 
 	public BigDecimal calculateTotalBill(List<LineItem> items) {

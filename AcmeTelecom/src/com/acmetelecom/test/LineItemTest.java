@@ -9,11 +9,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.acmetelecom.BillingSystem.LineItem;
-import com.acmetelecom.Call;
-import com.acmetelecom.CallEnd;
-import com.acmetelecom.CallStart;
-import com.acmetelecom.Callee;
-import com.acmetelecom.Caller;
+import com.acmetelecom.model.Call;
+import com.acmetelecom.model.CallEnd;
+import com.acmetelecom.model.CallStart;
+import com.acmetelecom.model.Callee;
+import com.acmetelecom.model.Caller;
 
 public class LineItemTest {
 	

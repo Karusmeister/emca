@@ -4,9 +4,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import com.acmetelecom.CallEvent;
-import com.acmetelecom.Callee;
-import com.acmetelecom.Caller;
+import com.acmetelecom.model.CallEvent;
+import com.acmetelecom.model.Callee;
+import com.acmetelecom.model.Caller;
 
 public class CallEventTest {
 

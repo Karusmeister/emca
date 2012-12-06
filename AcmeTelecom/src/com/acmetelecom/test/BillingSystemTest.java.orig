@@ -1,0 +1,139 @@
+package com.acmetelecom.test;
+
+<<<<<<< HEAD
+=======
+import static org.junit.Assert.*;
+
+import java.util.HashMap;
+import java.util.List;
+
+>>>>>>> 6b15665a1dd620b375f81bf7fea3e86f0bc8fd3e
+import org.junit.After;
+import org.junit.Before;
+import com.acmetelecom.BillingSystem;
+<<<<<<< HEAD
+=======
+import com.acmetelecom.Call;
+import com.acmetelecom.CallEnd;
+import com.acmetelecom.CallEvent;
+import com.acmetelecom.CallStart;
+>>>>>>> 6b15665a1dd620b375f81bf7fea3e86f0bc8fd3e
+
+public class BillingSystemTest {
+
+	BillingSystem bs;
+
+	@Before
+	public void setUp() throws Exception {
+		bs = new BillingSystem();
+	}
+
+	@After
+	public void tearDown() throws Exception {
+	}
+
+	@Test
+	public void testcheckCallLogEmpty() {
+		
+		HashMap<String, CallEvent> log = bs.callLog;
+		assertEquals(0, log.size());
+<<<<<<< HEAD
+	}*/
+
+	/*@Test
+=======
+		
+		List<Call> calls = bs.calls;
+		assertEquals(0, calls.size());
+	}
+	
+	@Test
+>>>>>>> 6b15665a1dd620b375f81bf7fea3e86f0bc8fd3e
+	public void testAddStartToLog() {
+		String caller = "Peter";
+		String callee = "Adam";
+
+		bs.callInitiated(caller, callee);
+<<<<<<< HEAD
+
+		List<CallEvent> log = bs.callLog;
+		assertEquals(1, log.size());
+
+		Object call = log.get(0);
+		assertEquals(CallStart.class, call.getClass());
+
+		CallStart start = (CallStart) call;
+		assertEquals(caller, start.getCaller());
+		assertEquals(callee, start.getCallee());
+	}*/
+
+	/*@Test
+=======
+		
+		HashMap<String, CallEvent> log = bs.callLog;
+		assertEquals(1, log.size());
+	}
+	
+	@Test
+>>>>>>> 6b15665a1dd620b375f81bf7fea3e86f0bc8fd3e
+	public void testAddEndToLog() {
+		String caller = "Peter";
+		String callee = "Adam";
+
+		bs.callInitiated(caller, callee);
+		bs.callCompleted(caller, callee);
+<<<<<<< HEAD
+
+		List<CallEvent> log = bs.callLog;
+		assertEquals(2, log.size());
+
+		Object call = log.get(1);
+		assertEquals(CallEnd.class, call.getClass());
+
+		CallEnd start = (CallEnd) call;
+		assertEquals(caller, start.getCaller());
+		assertEquals(callee, start.getCallee());
+	}*/
+
+	/*@Test
+=======
+		
+		HashMap<String, CallEvent> log = bs.callLog;
+		assertEquals(0, log.size());
+		
+		List<Call> calls = bs.calls;
+		assertEquals(1, calls.size());
+	}
+	
+	@Test
+>>>>>>> 6b15665a1dd620b375f81bf7fea3e86f0bc8fd3e
+	public void testCreateBillsClearsLog() {
+		String caller = "Peter";
+		String callee = "Adam";
+
+		bs.callInitiated(caller, callee);
+		bs.callCompleted(caller, callee);
+<<<<<<< HEAD
+
+		List<CallEvent> log = bs.callLog;
+		assertEquals(2, log.size());
+
+		bs.createCustomerBills();
+
+		log = bs.callLog;
+		assertEquals(0, log.size());
+
+	}*/
+=======
+		
+		bs.createCustomerBills();
+		
+		HashMap<String, CallEvent> log = bs.callLog;
+		assertEquals(0, log.size());
+		
+		List<Call> calls = bs.calls;
+		assertEquals(0, calls.size());
+	}
+>>>>>>> 6b15665a1dd620b375f81bf7fea3e86f0bc8fd3e
+
+}
