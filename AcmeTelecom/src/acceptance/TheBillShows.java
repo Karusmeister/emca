@@ -1,12 +1,11 @@
 package acceptance;
 
-
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.*;
 
 import com.acmetelecom.BillGenerator;
-import com.acmetelecom.presentation.HtmlPrinter;
+import presentation.HtmlPrinter;
 
 import fit.*;
 
@@ -32,22 +31,20 @@ public class TheBillShows extends RowFixture {
 
 	@Override
 	public Object[] query() throws Exception {
-		
+
 		HtmlPrinter printer;
 		ByteArrayOutputStream baos;
 		String html = new String();
-		
-		
+
 		baos = new ByteArrayOutputStream();
 		PrintStream ps = new PrintStream(html);
-		printer = (HtmlPrinter) HtmlPrinter.getInstance(ps);
-		
+		printer = new HtmlPrinter(ps);
+
 		BillGenerator billGen = new BillGenerator(printer);
 		SystemUnderTest.mockBillingSystem.billGenerator = billGen;
-		
-	
+
 		String cleanBill = html.replaceAll("<[^>]*>", "");
-		
+
 		List<Row> rows = new ArrayList<Row>();
 		for (String line : cleanBill.split("\n")) {
 			rows.add(new Row(rows.size() + 1, line));
