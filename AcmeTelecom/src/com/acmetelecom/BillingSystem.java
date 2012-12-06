@@ -11,9 +11,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
 
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
-
-import presentation.HtmlPrinter;
 import presentation.PrinterFactory;
 
 // Class for Billing System
@@ -25,9 +22,9 @@ public class BillingSystem {
 	// list of all calls at the system so far
 	public List<Call> calls = new ArrayList<Call>();
 
-	//Remove singleton
-//	public BillGenerator billGenerator = new BillGenerator(
-//			new HtmlPrinter(System.out));
+	// Remove singleton
+	public BillGenerator billGenerator = new BillGenerator(
+			PrinterFactory.getPrinter(PrinterFactory.SYSTEM_OUT_PRINTER));
 
 	public void callInitiated(Caller caller, Callee callee) {
 		callLog.put(caller.getPhoneNumber(), new CallStart(caller, callee));
@@ -85,12 +82,12 @@ public class BillingSystem {
 
 		BigDecimal totalBill = calculateTotalBill(items);
 
-		//Tudor: I think it's actually better if we create a new billGenerator object
-		//each time we have to print a bill as we avoid bottlenecks (we can change this back)
-		BillGenerator billGenerator = new BillGenerator();
+		// Tudor: I think it's actually better if we create a new billGenerator
+		// object
+		// each time we have to print a bill as we avoid bottlenecks (we can
+		// change this back)
 		billGenerator.send(customer, items,
-				MoneyFormatter.penceToPounds(totalBill),
-				PrinterFactory.getPrinter(PrinterFactory.SYSTEM_OUT_PRINTER));
+				MoneyFormatter.penceToPounds(totalBill));
 	}
 
 	private BigDecimal calculateTotalBill(List<LineItem> items) {

@@ -4,9 +4,7 @@ import java.io.PrintStream;
 
 public class HtmlPrinter implements Printer {
 
-	//Remove singleton
-    //private static Printer instance = new HtmlPrinter();
-    private static PrintStream stream;
+    private PrintStream stream;
 
     public HtmlPrinter(PrintStream aStream) {
     	stream = aStream;
@@ -20,56 +18,56 @@ public class HtmlPrinter implements Printer {
 
     public void printHeading(String name, String phoneNumber, String pricePlan) {
         beginHtml();
-        stream.println(h2(name + "/" + phoneNumber + " - " + "Price Plan: " + pricePlan));
+        stream.append(h2(name + "/" + phoneNumber + " - " + "Price Plan: " + pricePlan) + "\n");
         beginTable();
     }
 
     public void beginTable() {
-    	stream.println("<table border=\"1\">");
-    	stream.println(tr(th("Time") + th("Number") + th("Duration") + th("Cost")));
+    	stream.append("<table border=\"1\">" + "\n");
+    	stream.append(tr(th("Time") + th("Number") + th("Duration") + th("Cost"))+ "\n");
     }
 
     public void endTable() {
-    	stream.println("</table>");
+    	stream.append("</table>" + "\n");
     }
 
     public String h2(String text) {
-        return "<h2>" + text + "</h2>";
+        return "<h2>" + text + "</h2>" + "\n";
     }
 
     public void printItem(String time, String callee, String duration, String cost) {
-    	stream.println(tr(td(time) + td(callee) + td(duration) + td(cost)));
+    	stream.append(tr(td(time) + td(callee) + td(duration) + td(cost)));
     }
 
     public String tr(String text) {
-        return "<tr>" + text + "</tr>";
+        return "<tr>" + text + "</tr>" + "\n";
     }
 
     public String th(String text) {
-        return "<th width=\"160\">" + text + "</th>";
+        return "<th width=\"160\">" + text + "</th>" + "\n";
     }
 
     public String td(String text) {
-        return "<td>" + text + "</td>";
+        return "<td>" + text + "</td>" + "\n";
     }
 
     public void printTotal(String total) {
         endTable();
-        stream.println(h2("Total: " + total));
+        stream.append(h2("Total: " + total + "\n"));
         endHtml();
     }
 
     public void beginHtml() {
-        stream.println("<html>");
-        stream.println("<head></head>");
-        stream.println("<body>");
-        stream.println("<h1>");
-        stream.println("Acme Telecom");
-        stream.println("</h1>");
+        stream.append("<html>"+ "\n");
+        stream.append("<head></head>"+ "\n");
+        stream.append("<body>"+ "\n");
+        stream.append("<h1>"+ "\n");
+        stream.append("Acme Telecom"+ "\n");
+        stream.append("</h1>"+ "\n");
     }
 
     public void endHtml() {
-        stream.println("</body>");
-        stream.println("</html>");
+        stream.append("</body>" + "\n");
+        stream.append("</html>" + "\n");
     }
 }
