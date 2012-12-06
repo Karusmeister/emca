@@ -25,35 +25,15 @@ public class BillingSystem {
 	// list of all calls at the system so far
 	public List<Call> calls = new ArrayList<Call>();
 
-<<<<<<< HEAD
-	//hashmap to store the startCall event affiliated with each caller, facilitating easy retrieval
-    public HashMap<String, CallEvent> callLog = new HashMap<String, CallEvent>();
-    //list of all calls at the system so far
-    private List<Call> calls = new ArrayList<Call>();
-    ICustomerDatabase customerDatabase = new CustomerDatabase();
-    ITariffDatabase tariffDatabase = new TariffDatabase();
-
-    public List<Call> getCalls() {
-		return calls;
-	}
-
-	public void setCalls(List<Call> calls) {
-		this.calls = calls;
-	}
-
-	public void callInitiated(String caller, String callee) {
-        callLog.put(caller, new CallStart(caller, callee));
-    }
-=======
 	//Remove singleton
 //	public BillGenerator billGenerator = new BillGenerator(
 //			new HtmlPrinter(System.out));
 
-	public void callInitiated(String caller, String callee) {
-		callLog.put(caller, new CallStart(caller, callee));
+	public void callInitiated(Caller caller, Callee callee) {
+		callLog.put(caller.getPhoneNumber(), new CallStart(caller, callee));
 	}
 
-	public void callCompleted(String caller, String callee) {
+	public void callCompleted(Caller caller, Callee callee) {
 		// check if there's a callStart affiliated with that caller
 		// needs lots of exceptions handling here
 		if (callLog.containsKey(caller)
@@ -64,7 +44,6 @@ public class BillingSystem {
 			callLog.remove(caller); // remove callStart from log
 		}
 	}
->>>>>>> d9767903028f8119a9f827b9033fc6c251708e7a
 
 	public void createCustomerBills() {
 		// Tudor modified this
@@ -178,7 +157,7 @@ public class BillingSystem {
 			return call.date();
 		}
 
-		public String callee() {
+		public Callee callee() {
 			return call.callee();
 		}
 

@@ -13,11 +13,11 @@ public class Call {
         this.end = end;
     }
 
-    public String callee() {
+    public Callee callee() {
         return start.getCallee();
     }
     
-    public String caller() {
+    public Caller caller() {
         return start.getCaller();
     }
 

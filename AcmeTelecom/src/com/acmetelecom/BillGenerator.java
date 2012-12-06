@@ -22,7 +22,7 @@ public class BillGenerator {
 
         printer.printHeading(customer.getFullName(), customer.getPhoneNumber(), customer.getPricePlan());
         for (BillingSystem.LineItem call : calls) {
-            printer.printItem(call.date(), call.callee(), call.durationMinutes(), MoneyFormatter.penceToPounds(call.cost()));
+            printer.printItem(call.date(), call.callee().getPhoneNumber(), call.durationMinutes(), MoneyFormatter.penceToPounds(call.cost()));
         }
         printer.printTotal(totalBill);
     }
