@@ -24,6 +24,8 @@ import com.acmetelecom.dataLayer.ILocalTariff;
 import com.acmetelecom.dataLayer.ITariffDatabase;
 import com.acmetelecom.dataLayer.LocalCustomer;
 import com.acmetelecom.dataLayer.LocalTariff;
+import com.acmetelecom.model.Callee;
+import com.acmetelecom.model.Caller;
 import com.acmetelecom.presentation.Printer;
 
 
@@ -47,12 +49,14 @@ public class BillingSystemTest {
 
 	@Before
 	public void addACall() {
-		billingSystem.callInitiated("07445335887", "07886632214");
+		Caller caller = new Caller("07445335887");
+		Callee callee = new Callee("07886632214");
+		billingSystem.callInitiated(caller, callee);
 		try {
 			sleepSeconds(2);
 		} catch (InterruptedException e) {
 		}
-		billingSystem.callCompleted("07445335887", "07886632214");
+		billingSystem.callCompleted(caller, callee);
 
 		ILocalCustomer customer = context.mock(ILocalCustomer.class);
 		customers1.add(customer);
@@ -93,32 +97,39 @@ public class BillingSystemTest {
 	}
 
 	private void createContextForMultipleCustomers() {
-		billingSystem.callInitiated("07786632214", "07456339998");
+		Caller caller1 = new Caller("07786632214");
+		Callee callee1 = new Callee("07456339998");
+		Caller caller2 = new Caller("07663221445");
+		Callee callee2 = new Callee("07122446988");
+		Caller caller3 = new Caller("07411102300");
+		Callee callee3 = new Callee("07002669881");
+
+		billingSystem.callInitiated(caller1, callee1);
 		try {
 			sleepSeconds(2);
 		} catch (InterruptedException e) {
 		}
-		billingSystem.callInitiated("07663221445", "07122446988");
+		billingSystem.callInitiated(caller2, callee2);
 		try {
 			sleepSeconds(2);
 		} catch (InterruptedException e) {
 		}
-		billingSystem.callCompleted("07786632214", "07456339998");
+		billingSystem.callCompleted(caller1, callee1);
 		try {
 			sleepSeconds(2);
 		} catch (InterruptedException e) {
 		}
-		billingSystem.callInitiated("07411102300", "07002669881");
+		billingSystem.callInitiated(caller3, callee3);
 		try {
 			sleepSeconds(2);
 		} catch (InterruptedException e) {
 		}
-		billingSystem.callCompleted("07411102300", "07002669881");
+		billingSystem.callCompleted(caller3, callee3);
 		try {
 			sleepSeconds(2);
 		} catch (InterruptedException e) {
 		}
-		billingSystem.callCompleted("07663221445", "07122446988");
+		billingSystem.callCompleted(caller2, callee2);
 	}
 
 	@Test

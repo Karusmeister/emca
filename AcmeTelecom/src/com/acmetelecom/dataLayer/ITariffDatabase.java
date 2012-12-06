@@ -1,6 +1,6 @@
-package dataLayer;
+package com.acmetelecom.dataLayer;
 
-import dataLayer.ILocalTariff;
+import com.acmetelecom.dataLayer.ILocalTariff;
 
 public interface ITariffDatabase {
 

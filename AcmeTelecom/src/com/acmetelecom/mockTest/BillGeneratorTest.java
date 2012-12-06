@@ -18,6 +18,8 @@ import org.junit.runner.RunWith;
 
 import com.acmetelecom.BillGenerator;
 import com.acmetelecom.BillingSystem;
+import com.acmetelecom.model.Caller;
+import com.acmetelecom.model.Callee;
 import com.acmetelecom.MoneyFormatter;
 
 import com.acmetelecom.BillingSystem.LineItem;
@@ -30,6 +32,7 @@ import com.acmetelecom.model.Call;
 import com.acmetelecom.model.CallEnd;
 import com.acmetelecom.model.CallEvent;
 import com.acmetelecom.model.CallStart;
+import com.acmetelecom.model.Callee;
 import com.acmetelecom.presentation.Printer;
 import com.acmetelecom.presentation.PrinterFactory;
 
@@ -54,7 +57,7 @@ public class BillGeneratorTest {
 		Thread.sleep(n * 1000);
 	}
 
-	private LineItem createItem(String caller, String callee, BigDecimal cost){
+	private LineItem createItem(Caller caller, Callee callee, BigDecimal cost){
 		// Create a call
 		final CallEvent start = new CallStart(caller, callee);
 		try {
@@ -73,7 +76,9 @@ public class BillGeneratorTest {
 	@Before
 	public void CreateTestContext(){
 		// Create a context for testing
-		items.add(createItem("07445544412", "07521100322", new BigDecimal(100)));
+		Caller caller = new Caller("07445544412");
+		Callee callee = new Callee("07521100322");
+		items.add(createItem(caller, callee, new BigDecimal(100)));
 	}
 
 	@Test
@@ -91,7 +96,7 @@ public class BillGeneratorTest {
 			{
 				oneOf(printer).printHeading(customer1.getFullName(),
 						customer1.getPhoneNumber(), customer1.getPricePlan());
-				oneOf(printer).printItem(item.date(), item.callee(),
+				oneOf(printer).printItem(item.date(), item.callee().getPhoneNumber(),
 						item.durationMinutes(), MoneyFormatter.penceToPounds(item.cost()));
 				oneOf(printer).printTotal(totalBill);
 			}
@@ -102,7 +107,9 @@ public class BillGeneratorTest {
 
 	@Test
 	public void multipleCallTest(){
-		items.add(createItem("07441223335", "0778998885", new BigDecimal(200)));
+		Caller caller = new Caller("07441223335");
+		Callee callee = new Callee("0778998885");
+		items.add(createItem(caller, callee, new BigDecimal(200)));
 
 		BigDecimal bill = new BigDecimal(0);
 		for (LineItem i : items) {
@@ -115,7 +122,7 @@ public class BillGeneratorTest {
 				oneOf(printer).printHeading(customer1.getFullName(),
 						customer1.getPhoneNumber(), customer1.getPricePlan());
 				for(LineItem item : items){
-					oneOf(printer).printItem(item.date(), item.callee(),
+					oneOf(printer).printItem(item.date(), item.callee().getPhoneNumber(),
 							item.durationMinutes(), MoneyFormatter.penceToPounds(item.cost()));
 				}
 				oneOf(printer).printTotal(totalBill);
