@@ -1,0 +1,65 @@
+	<project name="AcmeTelecom" default="full-build">
+	<property name="product" value="AcmeTelecom" />
+
+	<path id="lib.path">
+		<fileset dir="lib/" />
+	</path>
+
+	<target name="full-build" description="Builds everything from scratch" depends="clean, unit-test" />
+
+	<target name="clean" description="Removes all build artefacts">
+		<delete dir="build" />
+		<delete dir="reports" />
+	</target>
+
+
+	<target name="unit-test" depends="classes">
+		<junit printsummary="yes">
+			<classpath>
+				<path refid="lib.path" />
+				<pathelement location="lib/joda-time-2.1.jar"/>
+				<pathelement location="classes/"/>
+			</classpath>
+
+			<formatter type="xml"/>
+
+			<batchtest>
+				<fileset dir="src/" >
+					<include name="com/acmetelecom/test/*Test.java" />
+				</fileset>
+			</batchtest>
+		</junit>
+	</target>
+
+
+	<target name="classes">
+		<compile-classes />
+	</target>
+
+    <target name="jars">
+        <compile-module name="com" />
+    </target>
+
+    <macrodef name="compile-classes">
+    	<sequential>
+    		<mkdir dir="classes" />
+
+    		<javac srcdir="src/" destdir="classes/" debug="${debug}" classpathref="lib.path" />
+		</sequential>
+    </macrodef>
+
+	<macrodef name="compile-module">
+		<attribute name="name" />
+
+		<sequential>
+			<mkdir dir="build/classes/@{name}" />
+
+			<javac srcdir="src/@{name}" destdir="build/classes/" debug="${debug}" classpathref="lib.path" />
+
+			<jar jarfile="build/@{name}.jar">
+				<fileset dir="build/classes/" />
+				<fileset dir="src/@{name}" />
+			</jar>
+		</sequential>
+	</macrodef>
+</project>
